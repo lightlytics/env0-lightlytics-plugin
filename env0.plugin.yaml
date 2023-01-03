@@ -5,23 +5,13 @@ inputs:
   directory:
     description: The IaC directory you want to scan with Checkov.
     required: true
-  token:
-    description: Your Collection Token -- Can be found in the settings screen 
-    required: true
-  enivronment:
-    description: Your Lightlytics environment domain -- e.g. org.lightlytics.com
-    required: true
   flags:
     description: Additional Lightlytics flags
 run:
   exec: |
-    cd ${inputs.directory}
-    terraform init
-    terraform plan -out=./terraform.plan
-    terraform show -json ./terraform.plan > ./tf_plan.json
-    terraform graph -type=plan > ./graph.dot
+    terraform graph -type=plan -plan=$ENV0_TF_PLAN_JSON> ./graph.dot
     echo "Downloading checker"
     curl https://raw.githubusercontent.com/lightlytics/publisher-standalone/main/package.json --output package.json
     npm install
     curl https://raw.githubusercontent.com/lightlytics/publisher-standalone/main/index.js --output index.js
-    node index.js --dir="./" --hostname="$LL_ENVIRONMENT" --plan="./tf_plan.json" --graph="./graph.dot" --token="$LL_TOKEN" --poll
+    node index.js --dir="${inputs.directory}" --hostname="$LL_ENVIRONMENT" --plan="$ENV0_TF_PLAN_JSON" --graph="./graph.dot" --token="$LL_TOKEN" --poll
