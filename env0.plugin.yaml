@@ -24,4 +24,4 @@ run:
     curl https://raw.githubusercontent.com/lightlytics/publisher-standalone/main/package.json --output package.json
     npm install
     curl https://raw.githubusercontent.com/lightlytics/publisher-standalone/main/index.js --output index.js
-    node index.js --dir="./" --hostname="${inputs.environment}" --plan="./tf_plan.json" --graph="./graph.dot" --token="${inputs.token}" --poll
+    node index.js --dir="./" --hostname="$LL_ENVIRONMENT" --plan="./tf_plan.json" --graph="./graph.dot" --token="$LL_TOKEN" --poll
