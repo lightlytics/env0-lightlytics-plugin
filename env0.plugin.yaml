@@ -3,7 +3,7 @@ icon: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPsdhUMbF4FBmeun5DtM
 
 inputs:
   directory:
-    description: The IaC directory you want to scan with Checkov.
+    description: The IaC directory you want to scan with Lightlytics.
     required: true
   flags:
     description: Additional Lightlytics flags
