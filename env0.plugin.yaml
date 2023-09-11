@@ -9,9 +9,9 @@ inputs:
     description: Additional Lightlytics flags
 run:
   exec: |
-    terraform graph -type=plan -plan=$ENV0_TF_PLAN_JSON> ./graph.dot
-    echo "Downloading checker"
-    curl https://raw.githubusercontent.com/lightlytics/publisher-standalone/main/package.json --output package.json
-    npm install
-    curl https://raw.githubusercontent.com/lightlytics/publisher-standalone/main/index.js --output index.js
-    node index.js --dir="${inputs.directory}" --hostname="$LL_ENVIRONMENT" --plan="$ENV0_TF_PLAN_JSON" --graph="./graph.dot" --token="$LL_TOKEN" --poll
+        terraform -chdir=$ENV0_TEMPLATE_DIR graph -type=plan -plan="$ENV0_TEMPLATE_DIR/.tf-plan" > graph.dot
+        echo "Downloading checker"
+        curl https://raw.githubusercontent.com/lightlytics/publisher-standalone/main/package.json --output package.json
+        npm install
+        curl https://raw.githubusercontent.com/lightlytics/publisher-standalone/main/index.js --output index.js
+        node index.js --dir="$ENV0_ROOT_DIR" --hostname="$LL_ENVIRONMENT" --plan="${ENV0_TF_PLAN_JSON}" --graph="graph.dot" --token="$LL_TOKEN" --poll
